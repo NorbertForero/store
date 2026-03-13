@@ -116,11 +116,3 @@ Los builds se generan en las carpetas `dist/`.
 - **Base de datos:** MySQL/MariaDB
 
 ## Licencia
-
-MIT
-
-root
-Norbert2026#*
-
-nf
-Ganfor2026#*

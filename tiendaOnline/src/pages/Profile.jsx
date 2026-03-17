@@ -12,7 +12,7 @@ export default function Profile() {
 
   const [datos, setDatos] = useState({
     nombre: '',
-    apellidos: '',
+    apellido: '',
     email: '',
     telefono: ''
   })
@@ -29,7 +29,7 @@ export default function Profile() {
     if (user) {
       setDatos({
         nombre: user.nombre || '',
-        apellidos: user.apellidos || '',
+        apellido: user.apellido || '',
         email: user.email || '',
         telefono: user.telefono || ''
       })
@@ -151,11 +151,11 @@ export default function Profile() {
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Apellidos</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Apellido</label>
                 <input
                   type="text"
-                  name="apellidos"
-                  value={datos.apellidos}
+                  name="apellido"
+                  value={datos.apellido}
                   onChange={handleChange}
                   className="input"
                   required

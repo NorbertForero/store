@@ -64,12 +64,12 @@ npm run dev
 ## Credenciales de prueba
 
 **Administrador:**
-- Email: admin@tienda.com
-- Password: admin123
+- Email: adminnf@nforero.com
+- Password: Norbert123
 
 **Cliente:**
-- Email: cliente@example.com
-- Password: cliente123
+- Email: forero-98@hotmail.com
+- Password: Norbert123
 
 ## Características
 

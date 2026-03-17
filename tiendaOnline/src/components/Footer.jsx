@@ -127,11 +127,11 @@ export default function Footer() {
             <ul className="space-y-3">
               <li className="flex items-center gap-2">
                 <Phone size={18} />
-                <span>+52 310 885 4472</span>
+                <span>+57 310 885 4472</span>
               </li>
               <li className="flex items-center gap-2">
                 <Mail size={18} />
-                <span>contacto@storen.com</span>
+                <span>contacto@nforero.com</span>
               </li>
               <li className="flex items-start gap-2">
                 <MapPin size={18} className="flex-shrink-0 mt-1" />
@@ -147,7 +147,7 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm">
-              © 2024 Tienda Online. Todos los derechos reservados.
+              © 2026 Tienda Online. Todos los derechos reservados.
             </p>
 
             {/* Redes sociales */}

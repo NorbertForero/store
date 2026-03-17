@@ -27,11 +27,14 @@ CREATE TABLE usuarios (
     token_verificacion VARCHAR(255),
     token_recuperacion VARCHAR(255),
     token_expiracion DATETIME,
+    reset_token VARCHAR(64) NULL,
+    reset_token_expiry DATETIME NULL,
     ultimo_acceso DATETIME,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     INDEX idx_email (email),
-    INDEX idx_rol (rol)
+    INDEX idx_rol (rol),
+    INDEX idx_usuarios_reset_token (reset_token)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Tabla de direcciones de usuarios
@@ -653,9 +656,16 @@ INSERT INTO marcas (nombre, slug, descripcion, activa) VALUES
 ('HomeDecor', 'homedecor', 'Decoración del hogar', TRUE),
 ('SportMax', 'sportmax', 'Equipamiento deportivo profesional', TRUE);
 
--- Insertar usuario administrador (contraseña: admin123)
-INSERT INTO usuarios (email, password_hash, nombre, apellido, rol, activo, email_verificado) VALUES
-('admin@tienda.com', '$2b$10$X7VYKvQ7Q7Y7Q7Y7Q7Y7Qu7Y7Q7Y7Q7Y7Q7Y7Q7Y7Q7Y7Q7Y7', 'Admin', 'Sistema', 'admin', TRUE, TRUE);
+
+-- Insertar usuario administrador de prueba
+INSERT INTO tienda_online.usuarios
+( email, password_hash, nombre, apellido, telefono, avatar_url, rol, activo, email_verificado, token_verificacion, token_recuperacion, token_expiracion, ultimo_acceso, created_at, updated_at, reset_token, reset_token_expiry)
+VALUES( 'adminnf@nforero.com', '$2a$10$pO0LQ3G2vlWoP4L.Xp/aO.4TCr3yZy/aAh1vO0lYesYc6QzRgEZl2', 'Admin', 'Sistema', NULL, NULL, 'admin', 1, 1, NULL, NULL, NULL, NULL, '2026-03-17 11:57:20', '2026-03-17 11:57:20', NULL, NULL);
+
+-- Insertar usuario cliente de prueba
+INSERT INTO tienda_online.usuarios
+(email, password_hash, nombre, apellido, telefono, avatar_url, rol, activo, email_verificado, token_verificacion, token_recuperacion, token_expiracion, ultimo_acceso, created_at, updated_at, reset_token, reset_token_expiry)
+VALUES('forero-98@hotmail.com', '$2a$10$pO0LQ3G2vlWoP4L.Xp/aO.4TCr3yZy/aAh1vO0lYesYc6QzRgEZl2', 'Norbert', 'Forero', '3108854472', NULL, 'cliente', 1, 0, NULL, NULL, NULL, NULL, '2026-03-17 12:01:57', '2026-03-17 12:01:57', NULL, NULL);
 
 -- =====================================================
 -- VISTAS ÚTILES

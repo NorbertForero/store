@@ -36,10 +36,17 @@ jobs:
       - name: Run Deploy Script
         run: |
           ssh ssh.nforero.com << 'EOF'
-            eval "$(ssh-agent -s)" && ssh-add ~/.ssh/nf_store
+            echo  "Agregando llave SSH al agente y desplegando aplicación..." && \
+            eval "$(ssh-agent -s)" && ssh-add ~/.ssh/nf_store && \
+            echo  "Ingresando al repo" && \
             cd /var/www/store && \
+            echo  "Actualizando el repo" && \
             git pull origin main && \
+            echo  "Instalando dependencias y reiniciando API" && \
             cd api && npm install && pm2 restart api && \
+            echo  "Construyendo tienda online" && \
             cd ../tiendaOnline && npm install && npm run build && \
+            echo  "Construyendo panel de administración" && \
             cd ../adminPanel && npm install && npm run build
+            echo  "Despliegue completado" && \
           EOF

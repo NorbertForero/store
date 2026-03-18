@@ -12,25 +12,33 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Paso crítico 1: Instalar el binario de cloudflared en el runner de GitHub
+      # 1. Instalar cloudflared
       - name: Install Cloudflared
         run: |
           curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
           sudo dpkg -i cloudflared.deb
 
-      # 2. Ejecutar el despliegue con el ProxyCommand integrado
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ssh.nforero.com
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          port: ${{ secrets.SERVER_PORT }}
-          # Pasamos el comando directamente a la acción para que el contenedor lo use
-          proxy_command: /usr/local/bin/cloudflared access ssh --hostname ssh.nforero.com
-          script: |
+      # 2. Configurar la llave SSH
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          cat <<EOF >> ~/.ssh/config
+          Host ssh.nforero.com
+            ProxyCommand /usr/local/bin/cloudflared access ssh --hostname %h
+            StrictHostKeyChecking no
+            User ${{ secrets.SERVER_USER }}
+            IdentityFile ~/.ssh/id_rsa
+          EOF
+
+      # 3. Ejecutar el despliegue con SSH nativo
+      - name: Run Deploy Script
+        run: |
+          ssh ssh.nforero.com << 'EOF'
             cd /var/www/store && \
             git pull origin main && \
             cd api && npm install && pm2 restart api && \
             cd ../tiendaOnline && npm install && npm run build && \
             cd ../adminPanel && npm install && npm run build
+          EOF

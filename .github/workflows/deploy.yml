@@ -18,17 +18,7 @@ jobs:
           curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
           sudo dpkg -i cloudflared.deb
 
-      # Paso crítico 2: Crear la configuración SSH para que use el túnel
-      - name: Configure SSH Proxy
-        run: |
-          mkdir -p ~/.ssh
-          cat <<EOF >> ~/.ssh/config
-          Host ssh.nforero.com
-            ProxyCommand /usr/local/bin/cloudflared access ssh --hostname %h
-            StrictHostKeyChecking no
-          EOF
-
-      # Paso 3: Ejecutar el despliegue
+      # 2. Ejecutar el despliegue con el ProxyCommand integrado
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -36,6 +26,8 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_PORT }}
+          # Pasamos el comando directamente a la acción para que el contenedor lo use
+          proxy_command: /usr/local/bin/cloudflared access ssh --hostname ssh.nforero.com
           script: |
             cd /var/www/store && \
             git pull origin main && \

@@ -43,7 +43,7 @@ jobs:
             echo  "Actualizando el repo" && \
             git pull origin main && \
             echo  "Instalando dependencias y reiniciando API" && \
-            cd api && npm install && pm2 restart api && \
+            cd api && npm install && pm2 restart api-tienda && \
             echo  "Construyendo tienda online" && \
             cd ../tiendaOnline && npm install && npm run build && \
             echo  "Construyendo panel de administración" && \

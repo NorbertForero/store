@@ -36,6 +36,7 @@ jobs:
       - name: Run Deploy Script
         run: |
           ssh ssh.nforero.com << 'EOF'
+            eval "$(ssh-agent -s)" && ssh-add ~/.ssh/nf_store
             cd /var/www/store && \
             git pull origin main && \
             cd api && npm install && pm2 restart api && \

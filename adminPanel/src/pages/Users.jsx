@@ -72,7 +72,7 @@ export default function Users() {
   const openEditModal = (usuario) => {
     setFormData({
       nombre: usuario.nombre,
-      apellidos: usuario.apellidos || '',
+      apellidos: usuario.apellido || '', // Ajuste: usar 'apellido' del backend
       email: usuario.email,
       telefono: usuario.telefono || '',
       password: '',

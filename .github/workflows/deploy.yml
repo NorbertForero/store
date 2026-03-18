@@ -1,4 +1,4 @@
-name: Deploy Store NF to Ubuntu Server
+name: Deploy to Ubuntu Server
 
 on:
   push:
@@ -12,17 +12,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Paso crítico 1: Instalar el binario de cloudflared en el runner de GitHub
       - name: Install Cloudflared
         run: |
           curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
           sudo dpkg -i cloudflared.deb
 
+      # Paso crítico 2: Crear la configuración SSH para que use el túnel
       - name: Configure SSH Proxy
         run: |
           mkdir -p ~/.ssh
-          echo "Host ssh.nforero.com" >> ~/.ssh/config
-          echo "  ProxyCommand /usr/local/bin/cloudflared access ssh --hostname %h" >> ~/.ssh/config
+          cat <<EOF >> ~/.ssh/config
+          Host ssh.nforero.com
+            ProxyCommand /usr/local/bin/cloudflared access ssh --hostname %h
+            StrictHostKeyChecking no
+          EOF
 
+      # Paso 3: Ejecutar el despliegue
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:

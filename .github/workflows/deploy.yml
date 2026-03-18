@@ -48,5 +48,5 @@ jobs:
             cd ../tiendaOnline && npm install && npm run build && \
             echo  "Construyendo panel de administración" && \
             cd ../adminPanel && npm install && npm run build
-            echo  "Despliegue completado" && \
+            echo  "Despliegue completado"
           EOF

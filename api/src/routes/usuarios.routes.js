@@ -120,7 +120,8 @@ router.get('/:id', auth, isAdmin, async (req, res) => {
 // Crear usuario (admin)
 router.post('/', auth, isAdmin, async (req, res) => {
   try {
-    const { email, password, nombre, apellido, telefono, rol = 'cliente', activo = true } = req.body;
+    const { email, password, nombre, apellidos, telefono, rol = 'cliente', activo = true } = req.body;
+    const apellido = apellidos || '';
 
     // Verificar email único
     const [existing] = await db.query('SELECT id FROM usuarios WHERE email = ?', [email]);

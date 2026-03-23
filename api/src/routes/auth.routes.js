@@ -47,10 +47,15 @@ router.post('/registro', [
     );
 
     // Generar token
+    // Validar expiresIn
+    let expiresIn = process.env.JWT_EXPIRES_IN;
+    if (!expiresIn || (!/^[0-9]+$/.test(expiresIn) && !/^[0-9]+[smhd]$/.test(expiresIn) && !/^[0-9]+[smhd]{1,2}$/.test(expiresIn))) {
+      expiresIn = '7d';
+    }
     const token = jwt.sign(
       { userId: result.insertId },
       process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+      { expiresIn }
     );
 
     res.status(201).json({
@@ -128,10 +133,15 @@ router.post('/login', [
     );
 
     // Generar token
+    // Validar expiresIn
+    let expiresIn = process.env.JWT_EXPIRES_IN;
+    if (!expiresIn || (!/^[0-9]+$/.test(expiresIn) && !/^[0-9]+[smhd]$/.test(expiresIn) && !/^[0-9]+[smhd]{1,2}$/.test(expiresIn))) {
+      expiresIn = '7d';
+    }
     const token = jwt.sign(
       { userId: user.id },
       process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+      { expiresIn }
     );
 
     res.json({

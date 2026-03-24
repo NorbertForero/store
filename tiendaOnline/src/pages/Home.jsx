@@ -19,9 +19,9 @@ export default function Home() {
   const loadData = async () => {
     try {
       const [destacadosRes, nuevosRes, ofertasRes, categoriasRes, bannersRes] = await Promise.all([
-        productosService.getAll({ featured: 'true', limit: 4 }),
-        productosService.getAll({ newProducts: 'true', limit: 4 }),
-        productosService.getAll({ onSale: 'true', limit: 4 }),
+        productosService.getAll({ featured: 'true', limit: 4, status: 'active' }),
+        productosService.getAll({ newProducts: 'true', limit: 4, status: 'active' }),
+        productosService.getAll({ onSale: 'true', limit: 4, status: 'active' }),
         categoriasService.getAll(),
         configuracionService.getBanners().catch(() => ({ data: { data: [] } }))
       ])

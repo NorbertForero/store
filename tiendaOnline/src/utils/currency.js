@@ -73,18 +73,19 @@ initCurrency()
  */
 export const formatCurrency = (value, showDecimals = null) => {
   const config = getCurrencyConfig()
-  
-  if (value === null || value === undefined || isNaN(value)) {
-    return `${config.symbol}0`
+  const numValue = Number(value)
+
+  if (value === null || value === undefined || isNaN(numValue)) {
+    return `${config.symbol} 0`
   }
-  
+
   const useDecimals = showDecimals !== null ? showDecimals : config.decimals > 0
   const options = {
     minimumFractionDigits: useDecimals ? config.decimals : 0,
     maximumFractionDigits: useDecimals ? config.decimals : 0
   }
-  
-  return `${config.symbol}${value.toLocaleString(config.locale, options)}`
+
+  return `${config.symbol} ${numValue.toLocaleString(config.locale, options)}`
 }
 
 /**
@@ -95,16 +96,17 @@ export const formatCurrency = (value, showDecimals = null) => {
  */
 export const formatNumber = (value, showDecimals = null) => {
   const config = getCurrencyConfig()
-  
-  if (value === null || value === undefined || isNaN(value)) {
+  const numValue = Number(value)
+
+  if (value === null || value === undefined || isNaN(numValue)) {
     return '0'
   }
-  
+
   const useDecimals = showDecimals !== null ? showDecimals : config.decimals > 0
   const options = {
     minimumFractionDigits: useDecimals ? config.decimals : 0,
     maximumFractionDigits: useDecimals ? config.decimals : 0
   }
-  
-  return value.toLocaleString(config.locale, options)
+
+  return numValue.toLocaleString(config.locale, options)
 }

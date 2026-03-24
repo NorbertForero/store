@@ -18,7 +18,8 @@ router.get('/', optionalAuth, async (req, res) => {
       order = 'DESC',
       featured,
       newProducts,
-      onSale
+      onSale,
+      status
     } = req.query;
 
     const offset = (parseInt(page) - 1) * parseInt(limit);
@@ -60,6 +61,12 @@ router.get('/', optionalAuth, async (req, res) => {
       whereConditions.push('p.precio_oferta IS NOT NULL AND p.precio_oferta < p.precio');
     }
 
+    if (status === 'active') {
+      whereConditions.push('p.disponible = 1');
+    } else if (status === 'inactive') {
+      whereConditions.push('p.disponible = 0');
+    }
+
     const whereClause = whereConditions.length > 0 
       ? `WHERE ${whereConditions.join(' AND ')}` 
       : '';
@@ -78,8 +85,8 @@ router.get('/', optionalAuth, async (req, res) => {
     // Main query
     const [productos] = await db.query(`
       SELECT DISTINCT
-        p.id, p.sku, p.nombre, p.slug, p.descripcion_corta, p.precio, 
-        p.precio_oferta, p.stock, p.destacado, p.nuevo, p.created_at,
+        p.id, p.sku, p.nombre, p.slug, p.descripcion_corta, p.precio,
+        p.precio_oferta, p.stock, p.disponible, p.destacado, p.nuevo, p.created_at,
         (SELECT url FROM productos_imagenes WHERE producto_id = p.id AND es_principal = 1 LIMIT 1) AS imagen_principal,
         (SELECT c.nombre FROM productos_categorias pc2 
          JOIN categorias c ON pc2.categoria_id = c.id 
@@ -304,8 +311,20 @@ router.post('/', auth, isAdminOrVendedor, [
 router.put('/:id', auth, isAdminOrVendedor, async (req, res) => {
   try {
     const { id } = req.params;
-    const updates = req.body;
-    
+    const updates = { ...req.body };
+
+    // Normalizar campos: el frontend puede enviar 'activo' o 'disponible'
+    if (updates.activo !== undefined && updates.disponible === undefined) {
+      updates.disponible = updates.activo;
+    }
+    delete updates.activo;
+
+    // Normalizar categorías: el frontend puede enviar 'categoria_ids' o 'categorias'
+    if (updates.categoria_ids !== undefined && updates.categorias === undefined) {
+      updates.categorias = updates.categoria_ids;
+    }
+    delete updates.categoria_ids;
+
     // Verificar que el producto existe
     const [productos] = await db.query('SELECT id FROM productos WHERE id = ?', [id]);
     if (productos.length === 0) {

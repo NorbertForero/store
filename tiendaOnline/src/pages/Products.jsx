@@ -51,7 +51,8 @@ export default function Products() {
     try {
       const params = {
         ...filtros,
-        categoria: categoria || undefined
+        categoria: categoria || undefined,
+        status: 'active'
       }
       
       // Limpiar params vacíos

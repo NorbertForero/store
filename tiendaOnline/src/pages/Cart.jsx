@@ -75,9 +75,10 @@ export default function Cart() {
             <div key={item.id} className="card p-4 flex gap-4">
               <Link to={`/producto/${item.producto_slug}`} className="w-24 h-24 flex-shrink-0">
                 <img
-                  src={item.imagen_url || 'https://via.placeholder.com/96'}
+                  src={item.imagen || '/placeholder.svg'}
                   alt={item.producto_nombre}
                   className="w-full h-full object-cover rounded-lg"
+                  onError={(e) => { e.currentTarget.src = '/placeholder.svg' }}
                 />
               </Link>
 

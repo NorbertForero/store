@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { Save, ArrowLeft, Plus, X, Image, Loader } from 'lucide-react'
-import { productosService, categoriasService } from '../services/api'
+import { Save, ArrowLeft, Plus, X, Image, Loader, Upload } from 'lucide-react'
+import { productosService, categoriasService, uploadService } from '../services/api'
 
 export default function ProductForm() {
   const { id } = useParams()
@@ -10,8 +10,10 @@ export default function ProductForm() {
 
   const [loading, setLoading] = useState(isEdit)
   const [saving, setSaving] = useState(false)
+  const [uploading, setUploading] = useState(false)
   const [categorias, setCategorias] = useState([])
   const [error, setError] = useState(null)
+  const fileInputRef = useRef(null)
 
   const [producto, setProducto] = useState({
     nombre: '',
@@ -41,7 +43,7 @@ export default function ProductForm() {
 
   const loadCategorias = async () => {
     try {
-      const response = await categoriasService.getAll()
+      const response = await categoriasService.getAll({ jerarquica: 'false' })
       setCategorias(response.data.data || [])
     } catch (error) {
       console.error('Error cargando categorías:', error)
@@ -65,7 +67,7 @@ export default function ProductForm() {
         marca_id: prod.marca_id || '',
         peso: prod.peso?.toString() || '',
         dimensiones: prod.dimensiones || '',
-        activo: prod.activo ?? true,
+        activo: prod.disponible ?? true,
         destacado: prod.destacado ?? false,
         nuevo: prod.nuevo ?? false,
         imagenes: prod.imagenes || []
@@ -95,14 +97,28 @@ export default function ProductForm() {
     }))
   }
 
-  const handleAddImage = () => {
-    const url = prompt('Ingresa la URL de la imagen:')
-    if (url) {
-      setProducto(prev => ({
-        ...prev,
-        imagenes: [...prev.imagenes, { url, orden: prev.imagenes.length }]
-      }))
+  const handleFileChange = async (e) => {
+    const files = Array.from(e.target.files)
+    if (files.length === 0) return
+
+    setUploading(true)
+    setError(null)
+
+    for (const file of files) {
+      try {
+        const response = await uploadService.uploadImagen(file)
+        const url = response.data.data.url
+        setProducto(prev => ({
+          ...prev,
+          imagenes: [...prev.imagenes, { url, orden: prev.imagenes.length }]
+        }))
+      } catch (err) {
+        setError(err.response?.data?.message || `Error al subir ${file.name}`)
+      }
     }
+
+    setUploading(false)
+    e.target.value = ''
   }
 
   const handleRemoveImage = (index) => {
@@ -125,8 +141,12 @@ export default function ProductForm() {
         stock: parseInt(producto.stock) || 0,
         stock_minimo: parseInt(producto.stock_minimo) || 5,
         peso: producto.peso ? parseFloat(producto.peso) : null,
-        marca_id: producto.marca_id || null
+        marca_id: producto.marca_id || null,
+        disponible: producto.activo,
+        categorias: producto.categoria_ids
       }
+      delete data.activo
+      delete data.categoria_ids
 
       if (isEdit) {
         await productosService.update(id, data)
@@ -292,7 +312,7 @@ export default function ProductForm() {
                   onChange={() => handleCategoriaChange(cat.id)}
                   className="sr-only"
                 />
-                {cat.nombre}
+                {cat.categoria_padre_id ? `↳ ${cat.nombre}` : cat.nombre}
               </label>
             ))}
           </div>
@@ -302,15 +322,42 @@ export default function ProductForm() {
         <div className="card p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-800">Imágenes</h2>
-            <button type="button" onClick={handleAddImage} className="btn btn-secondary btn-sm">
-              <Plus size={16} />
-              Agregar imagen
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={uploading}
+              className="btn btn-secondary btn-sm"
+            >
+              {uploading ? (
+                <>
+                  <Loader size={16} className="animate-spin" />
+                  Subiendo...
+                </>
+              ) : (
+                <>
+                  <Upload size={16} />
+                  Subir imagen
+                </>
+              )}
             </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/jpeg,image/png,image/webp,image/gif"
+              multiple
+              className="hidden"
+              onChange={handleFileChange}
+            />
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {producto.imagenes.map((img, idx) => (
               <div key={idx} className="relative aspect-square bg-gray-100 rounded-lg overflow-hidden group">
-                <img src={img.url} alt="" className="w-full h-full object-cover" />
+                <img
+                  src={img.url}
+                  alt=""
+                  className="w-full h-full object-cover"
+                  onError={(e) => { e.currentTarget.src = '/placeholder.svg' }}
+                />
                 <button
                   type="button"
                   onClick={() => handleRemoveImage(idx)}
@@ -325,12 +372,23 @@ export default function ProductForm() {
                 )}
               </div>
             ))}
-            {producto.imagenes.length === 0 && (
+            {producto.imagenes.length === 0 && !uploading && (
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="aspect-square bg-gray-100 rounded-lg flex flex-col items-center justify-center gap-2 text-gray-400 hover:bg-gray-200 hover:text-gray-500 transition-colors"
+              >
+                <Image size={40} />
+                <span className="text-sm">Subir imagen</span>
+              </button>
+            )}
+            {uploading && (
               <div className="aspect-square bg-gray-100 rounded-lg flex items-center justify-center text-gray-400">
-                <Image size={48} />
+                <Loader size={32} className="animate-spin" />
               </div>
             )}
           </div>
+          <p className="mt-2 text-xs text-gray-500">Formatos: JPEG, PNG, WebP, GIF · Máximo 5 MB por imagen · La primera imagen será la principal</p>
         </div>
 
         {/* Opciones */}

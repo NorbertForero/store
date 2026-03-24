@@ -81,10 +81,11 @@ export default function ProductCard({ producto }) {
       {/* Imagen */}
       <Link to={`/producto/${producto.slug}`} className="block aspect-square overflow-hidden bg-gray-100 dark:bg-gray-700">
         <img
-          src={producto.imagen || 'https://via.placeholder.com/400x400?text=Sin+imagen'}
+          src={producto.imagen_principal || producto.imagen || '/placeholder.svg'}
           alt={producto.nombre}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           loading="lazy"
+          onError={(e) => { e.currentTarget.src = '/placeholder.svg' }}
         />
       </Link>
 

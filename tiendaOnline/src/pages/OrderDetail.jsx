@@ -189,9 +189,10 @@ export default function OrderDetail() {
           {pedido.items?.map((item) => (
             <div key={item.id} className="py-4 flex gap-4">
               <img
-                src={item.imagen_url || 'https://via.placeholder.com/80'}
+                src={item.imagen_url || '/placeholder.svg'}
                 alt={item.producto_nombre}
                 className="w-20 h-20 object-cover rounded-lg"
+                onError={(e) => { e.currentTarget.src = '/placeholder.svg' }}
               />
               <div className="flex-1">
                 <Link 

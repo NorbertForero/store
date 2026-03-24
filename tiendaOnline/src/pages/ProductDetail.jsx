@@ -129,9 +129,10 @@ export default function ProductDetail() {
         <div className="space-y-4">
           <div className="aspect-square bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden">
             <img
-              src={producto.imagenes?.[imagenActiva]?.url || 'https://via.placeholder.com/600x600?text=Sin+imagen'}
+              src={producto.imagenes?.[imagenActiva]?.url || '/placeholder.svg'}
               alt={producto.nombre}
               className="w-full h-full object-cover"
+              onError={(e) => { e.currentTarget.src = '/placeholder.svg' }}
             />
           </div>
           {producto.imagenes?.length > 1 && (
@@ -144,7 +145,7 @@ export default function ProductDetail() {
                     imagenActiva === idx ? 'border-primary-600' : 'border-transparent'
                   }`}
                 >
-                  <img src={img.url} alt="" className="w-full h-full object-cover" />
+                  <img src={img.url} alt="" className="w-full h-full object-cover" onError={(e) => { e.currentTarget.src = '/placeholder.svg' }} />
                 </button>
               ))}
             </div>

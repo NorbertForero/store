@@ -555,9 +555,10 @@ export default function Checkout() {
               {cart.items.map((item) => (
                 <div key={item.id} className="flex gap-3">
                   <img
-                    src={item.imagen_url || 'https://via.placeholder.com/64'}
+                    src={item.imagen || '/placeholder.svg'}
                     alt={item.producto_nombre}
                     className="w-16 h-16 object-cover rounded"
+                    onError={(e) => { e.currentTarget.src = '/placeholder.svg' }}
                   />
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium line-clamp-2 dark:text-white">{item.producto_nombre}</p>

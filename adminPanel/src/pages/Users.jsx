@@ -87,7 +87,8 @@ export default function Users() {
     setSaving(true)
 
     try {
-      const data = { ...formData }
+      const { apellidos, ...rest } = formData
+      const data = { ...rest, apellido: apellidos }
       if (!data.password) delete data.password
 
       if (modal.mode === 'create') {
@@ -210,7 +211,7 @@ export default function Users() {
                         </div>
                         <div>
                           <p className="font-medium text-gray-800">
-                            {usuario.nombre} {usuario.apellidos}
+                            {usuario.nombre} {usuario.apellido}
                           </p>
                           {usuario.telefono && (
                             <p className="text-xs text-gray-500">{usuario.telefono}</p>

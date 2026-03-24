@@ -42,11 +42,14 @@ export default function Products() {
   const loadProductos = async () => {
     setLoading(true)
     try {
+      const estadoFiltro = searchParams.get('estado') || ''
       const params = {
         page: searchParams.get('page') || 1,
         limit: 10,
         search: searchParams.get('buscar') || '',
-        category: searchParams.get('categoria') || ''
+        category: searchParams.get('categoria') || '',
+        ...(estadoFiltro === 'activo' && { status: 'active' }),
+        ...(estadoFiltro === 'inactivo' && { status: 'inactive' })
       }
       const response = await productosService.getAll(params)
       setProductos(response.data.data.products || [])
@@ -175,9 +178,10 @@ export default function Products() {
                     <td>
                       <div className="flex items-center gap-3">
                         <img
-                          src={producto.imagen_principal || 'https://via.placeholder.com/48'}
+                          src={producto.imagen_principal || '/placeholder.svg'}
                           alt={producto.nombre}
                           className="w-12 h-12 object-cover rounded"
+                          onError={(e) => { e.currentTarget.src = '/placeholder.svg' }}
                         />
                         <div>
                           <p className="font-medium text-gray-800">{producto.nombre}</p>
@@ -208,8 +212,8 @@ export default function Products() {
                       </span>
                     </td>
                     <td>
-                      <span className={`badge ${producto.activo ? 'badge-success' : 'badge-gray'}`}>
-                        {producto.activo ? 'Activo' : 'Inactivo'}
+                      <span className={`badge ${producto.disponible ? 'badge-success' : 'badge-gray'}`}>
+                        {producto.disponible ? 'Activo' : 'Inactivo'}
                       </span>
                     </td>
                     <td>

@@ -35,6 +35,16 @@ export const dashboardService = {
   getStats: () => api.get('/api/configuracion/dashboard')
 }
 
+export const uploadService = {
+  uploadImagen: (file) => {
+    const formData = new FormData()
+    formData.append('imagen', file)
+    return api.post('/api/uploads/imagen', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    })
+  }
+}
+
 export const productosService = {
   getAll: (params) => api.get('/api/productos', { params }),
   getById: (id) => api.get(`/api/productos/${id}`),
@@ -45,7 +55,7 @@ export const productosService = {
 }
 
 export const categoriasService = {
-  getAll: () => api.get('/api/categorias'),
+  getAll: (params) => api.get('/api/categorias', { params }),
   create: (data) => api.post('/api/categorias', data),
   update: (id, data) => api.put(`/api/categorias/${id}`, data),
   delete: (id) => api.delete(`/api/categorias/${id}`)

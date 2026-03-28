@@ -40,7 +40,7 @@ export const uploadService = {
     const formData = new FormData()
     formData.append('imagen', file)
     return api.post('/api/uploads/imagen', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' }
+      headers: { 'Content-Type': undefined }
     })
   }
 }

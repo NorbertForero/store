@@ -351,19 +351,20 @@ router.put('/:id', auth, isAdminOrVendedor, async (req, res) => {
       }
     }
 
-    if (setClause.length === 0) {
+    if (setClause.length === 0 && !updates.categorias && updates.imagenes === undefined) {
       return res.status(400).json({
         success: false,
         message: 'No hay campos para actualizar'
       });
     }
 
-    values.push(id);
-
-    await db.query(
-      `UPDATE productos SET ${setClause.join(', ')} WHERE id = ?`,
-      values
-    );
+    if (setClause.length > 0) {
+      values.push(id);
+      await db.query(
+        `UPDATE productos SET ${setClause.join(', ')} WHERE id = ?`,
+        values
+      );
+    }
 
     // Actualizar categorías si se proporcionan
     if (updates.categorias) {
@@ -373,6 +374,20 @@ router.put('/:id', auth, isAdminOrVendedor, async (req, res) => {
         await db.query(
           'INSERT INTO productos_categorias (producto_id, categoria_id, es_principal) VALUES ?',
           [catValues]
+        );
+      }
+    }
+
+    // Actualizar imágenes si se proporcionan
+    if (updates.imagenes !== undefined) {
+      await db.query('DELETE FROM productos_imagenes WHERE producto_id = ?', [id]);
+      if (updates.imagenes.length > 0) {
+        const imgValues = updates.imagenes.map((img, idx) => [
+          id, img.url, img.alt_text || updates.nombre || '', idx === 0, img.orden ?? idx
+        ]);
+        await db.query(
+          'INSERT INTO productos_imagenes (producto_id, url, alt_text, es_principal, orden) VALUES ?',
+          [imgValues]
         );
       }
     }

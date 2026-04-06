@@ -95,8 +95,8 @@ export default function OrderDetail() {
           <ArrowLeft size={24} />
         </button>
         <div>
-          <h1 className="text-2xl font-bold text-gray-800">Pedido #{pedido.numero_pedido}</h1>
-          <p className="text-gray-500">{formatDate(pedido.fecha_pedido)}</p>
+          <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Pedido #{pedido.numero_pedido}</h1>
+          <p className="text-gray-500 dark:text-gray-400">{formatDate(pedido.fecha_pedido)}</p>
         </div>
       </div>
 
@@ -105,7 +105,7 @@ export default function OrderDetail() {
         <div className="lg:col-span-2 space-y-6">
           {/* Productos */}
           <div className="card">
-            <div className="p-4 border-b border-gray-200">
+            <div className="p-4 border-b border-gray-200 dark:border-gray-700">
               <h2 className="font-semibold text-gray-800 flex items-center gap-2">
                 <Package size={20} className="text-primary-600" />
                 Productos ({pedido.items?.length})
@@ -121,11 +121,11 @@ export default function OrderDetail() {
                     onError={(e) => { e.currentTarget.src = '/placeholder.svg' }}
                   />
                   <div className="flex-1">
-                    <p className="font-medium text-gray-800">{item.producto_nombre}</p>
+                    <p className="font-medium text-gray-800 dark:text-white">{item.producto_nombre}</p>
                     {item.variante_nombre && (
-                      <p className="text-sm text-gray-500">{item.variante_nombre}</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">{item.variante_nombre}</p>
                     )}
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
                       Cantidad: {item.cantidad} × {formatCurrency(item.precio_unitario)}
                     </p>
                   </div>
@@ -137,17 +137,17 @@ export default function OrderDetail() {
             </div>
             <div className="p-4 bg-gray-50 border-t space-y-2">
               <div className="flex justify-between text-sm">
-                <span className="text-gray-600">Subtotal</span>
+                <span className="text-gray-600 dark:text-gray-400">Subtotal</span>
                 <span>{formatCurrency(pedido.subtotal)}</span>
               </div>
               {pedido.descuento > 0 && (
-                <div className="flex justify-between text-sm text-green-600">
+                <div className="flex justify-between text-sm text-green-600 dark:text-green-400">
                   <span>Descuento</span>
                   <span>-{formatCurrency(pedido.descuento)}</span>
                 </div>
               )}
               <div className="flex justify-between text-sm">
-                <span className="text-gray-600">Envío</span>
+                <span className="text-gray-600 dark:text-gray-400">Envío</span>
                 <span>
                   {pedido.costo_envio === 0 ? 'Gratis' : formatCurrency(pedido.costo_envio)}
                 </span>
@@ -165,8 +165,8 @@ export default function OrderDetail() {
               <MapPin size={20} className="text-primary-600" />
               Dirección de envío
             </h2>
-            <div className="text-sm text-gray-600">
-              <p className="font-medium text-gray-800">
+            <div className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="font-medium text-gray-800 dark:text-white">
                 {pedido.direccion_envio?.nombre} {pedido.direccion_envio?.apellidos}
               </p>
               <p>{pedido.direccion_envio?.direccion} {pedido.direccion_envio?.numero_exterior}</p>
@@ -242,10 +242,10 @@ export default function OrderDetail() {
               Cliente
             </h2>
             <div className="text-sm">
-              <p className="font-medium text-gray-800">{pedido.cliente_nombre}</p>
-              <p className="text-gray-600">{pedido.cliente_email}</p>
+              <p className="font-medium text-gray-800 dark:text-white">{pedido.cliente_nombre}</p>
+              <p className="text-gray-600 dark:text-gray-400">{pedido.cliente_email}</p>
               {pedido.cliente_telefono && (
-                <p className="text-gray-600">Tel: {pedido.cliente_telefono}</p>
+                <p className="text-gray-600 dark:text-gray-400">Tel: {pedido.cliente_telefono}</p>
               )}
             </div>
           </div>
@@ -258,11 +258,11 @@ export default function OrderDetail() {
             </h2>
             <div className="text-sm space-y-2">
               <div className="flex justify-between">
-                <span className="text-gray-600">Método</span>
+                <span className="text-gray-600 dark:text-gray-400">Método</span>
                 <span className="font-medium">{pedido.metodo_pago?.nombre || '-'}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">Estado</span>
+                <span className="text-gray-600 dark:text-gray-400">Estado</span>
                 <span className={`badge ${
                   pedido.estado_pago === 'pagado' ? 'badge-success' :
                   pedido.estado_pago === 'fallido' ? 'badge-danger' :
@@ -282,12 +282,12 @@ export default function OrderDetail() {
             </h2>
             <div className="text-sm space-y-2">
               <div className="flex justify-between">
-                <span className="text-gray-600">Método</span>
+                <span className="text-gray-600 dark:text-gray-400">Método</span>
                 <span className="font-medium">{pedido.metodo_envio?.nombre || '-'}</span>
               </div>
               {pedido.numero_guia && (
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Guía</span>
+                  <span className="text-gray-600 dark:text-gray-400">Guía</span>
                   <span className="font-mono">{pedido.numero_guia}</span>
                 </div>
               )}

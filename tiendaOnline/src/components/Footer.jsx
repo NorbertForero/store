@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom'
-import { 
+import {
   Facebook, Twitter, Instagram, Youtube,
-  Mail, Phone, MapPin, CreditCard, Truck, Shield 
+  Mail, Phone, MapPin, CreditCard, Truck, Shield
 } from 'lucide-react'
+import { useConfig } from '../context/ConfigContext'
 
 export default function Footer() {
+  const { nombre_tienda } = useConfig()
   return (
     <footer className="bg-gray-900 text-gray-300">
       {/* Beneficios */}
@@ -147,7 +149,7 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm">
-              © 2026 Tienda Online. Todos los derechos reservados.
+              © {new Date().getFullYear()} {nombre_tienda || 'Tienda Online'}. Todos los derechos reservados.
             </p>
 
             {/* Redes sociales */}

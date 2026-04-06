@@ -23,7 +23,7 @@ export default function Checkout() {
   const [datos, setDatos] = useState({
     // Dirección de envío
     nombre: user?.nombre || '',
-    apellidos: user?.apellidos || '',
+    apellidos: user?.apellido || '',
     email: user?.email || '',
     telefono: user?.telefono || '',
     direccion: '',
@@ -53,7 +53,7 @@ export default function Checkout() {
       setDatos(prev => ({
         ...prev,
         nombre: user.nombre || '',
-        apellidos: user.apellidos || '',
+        apellidos: user.apellido || '',
         email: user.email || '',
         telefono: user.telefono || ''
       }))

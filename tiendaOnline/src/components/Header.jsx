@@ -7,6 +7,7 @@ import {
 import { useAuth } from '../context/AuthContext'
 import { useCart } from '../context/CartContext'
 import { useTheme } from '../context/ThemeContext'
+import { useConfig } from '../context/ConfigContext'
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -15,6 +16,7 @@ export default function Header() {
   const { user, isAuthenticated, logout } = useAuth()
   const { itemCount } = useCart()
   const { darkMode, toggleDarkMode } = useTheme()
+  const { nombre_tienda } = useConfig()
   const navigate = useNavigate()
 
   const handleSearch = (e) => {
@@ -38,10 +40,10 @@ export default function Header() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
             <div className="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">T</span>
+              <span className="text-white font-bold text-xl">{nombre_tienda?.charAt(0) || 'T'}</span>
             </div>
             <span className="font-bold text-xl text-gray-800 dark:text-white hidden sm:block">
-              Tienda Online
+              {nombre_tienda || 'Tienda Online'}
             </span>
           </Link>
 

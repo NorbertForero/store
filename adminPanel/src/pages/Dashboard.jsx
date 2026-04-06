@@ -63,7 +63,7 @@ export default function Dashboard() {
     <div className="card p-6">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-sm text-gray-500">{title}</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">{title}</p>
           <p className="text-2xl font-bold text-gray-800 mt-1">
             {prefix}{formatNumber(value)}
           </p>
@@ -102,7 +102,7 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
+      <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Dashboard</h1>
 
       {/* Stats cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -172,7 +172,7 @@ export default function Dashboard() {
         {/* Alertas de inventario */}
         <div className="card p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-800">Alertas de stock</h2>
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Alertas de stock</h2>
             <Link to="/inventario" className="text-sm text-primary-600 hover:underline">
               Ver todas
             </Link>
@@ -190,7 +190,7 @@ export default function Dashboard() {
                     <p className="text-sm font-medium text-gray-800 truncate">
                       {item.producto_nombre}
                     </p>
-                    <p className="text-xs text-red-600">
+                    <p className="text-xs text-red-600 dark:text-red-400">
                       Stock: {item.stock} unidades
                     </p>
                   </div>
@@ -203,9 +203,9 @@ export default function Dashboard() {
 
       {/* Últimos pedidos */}
       <div className="card">
-        <div className="p-6 border-b border-gray-200">
+        <div className="p-6 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-gray-800">Últimos pedidos</h2>
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Últimos pedidos</h2>
             <Link to="/pedidos" className="text-sm text-primary-600 hover:underline">
               Ver todos
             </Link>
@@ -225,7 +225,7 @@ export default function Dashboard() {
             <tbody>
               {ultimosPedidos.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="text-center py-8 text-gray-500">
+                  <td colSpan="5" className="text-center py-8 text-gray-500 dark:text-gray-400">
                     No hay pedidos recientes
                   </td>
                 </tr>

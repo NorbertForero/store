@@ -107,7 +107,7 @@ export default function Inventory() {
 
     if (items.length === 0) {
       return (
-        <div className="p-8 text-center text-gray-500">
+        <div className="p-8 text-center text-gray-500 dark:text-gray-400">
           {tab === 'alertas' ? 'No hay productos con stock bajo' : 'No se encontraron productos'}
         </div>
       )
@@ -148,7 +148,7 @@ export default function Inventory() {
                   {item.stock}
                 </span>
               </td>
-              <td className="text-gray-600">{item.stock_minimo || 5}</td>
+              <td className="text-gray-600 dark:text-gray-400">{item.stock_minimo || 5}</td>
               <td>
                 {item.stock === 0 ? (
                   <span className="badge badge-danger">Agotado</span>
@@ -179,7 +179,7 @@ export default function Inventory() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-800">Inventario</h1>
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Inventario</h1>
         <div className="flex gap-2">
           <button onClick={() => handleExport('csv')} className="btn btn-secondary">
             <Download size={18} />
@@ -189,7 +189,7 @@ export default function Inventory() {
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-2 border-b border-gray-200">
+      <div className="flex gap-2 border-b border-gray-200 dark:border-gray-700">
         {[
           { id: 'todos', label: 'Todos' },
           { id: 'bajo', label: 'Stock bajo' },
@@ -245,8 +245,8 @@ export default function Inventory() {
 
         {/* Paginación */}
         {tab !== 'alertas' && pagination.totalPages > 1 && (
-          <div className="flex items-center justify-between p-4 border-t border-gray-200">
-            <p className="text-sm text-gray-500">
+          <div className="flex items-center justify-between p-4 border-t border-gray-200 dark:border-gray-700">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               Página {pagination.page} de {pagination.totalPages}
             </p>
             <div className="flex items-center gap-2">

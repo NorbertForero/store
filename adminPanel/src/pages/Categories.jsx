@@ -112,7 +112,7 @@ export default function Categories() {
         <td>
           <div className="flex items-center gap-2" style={{ paddingLeft: `${level * 24}px` }}>
             {level > 0 && <ChevronRight size={16} className="text-gray-400" />}
-            <span className="font-medium text-gray-800">{categoria.nombre}</span>
+            <span className="font-medium text-gray-800 dark:text-white">{categoria.nombre}</span>
           </div>
         </td>
         <td className="text-gray-600 max-w-xs truncate">{categoria.descripcion || '-'}</td>
@@ -121,7 +121,7 @@ export default function Categories() {
             {categoria.activa ? 'Activa' : 'Inactiva'}
           </span>
         </td>
-        <td className="text-gray-600">{categoria.total_productos || 0}</td>
+        <td className="text-gray-600 dark:text-gray-400">{categoria.total_productos || 0}</td>
         <td>
           <div className="flex items-center gap-2">
             <button
@@ -165,7 +165,7 @@ export default function Categories() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-800">Categorías</h1>
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Categorías</h1>
         <button onClick={() => openCreateModal()} className="btn btn-primary">
           <Plus size={20} />
           Nueva categoría
@@ -187,7 +187,7 @@ export default function Categories() {
             <tbody>
               {categoriasArbol.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="text-center py-8 text-gray-500">
+                  <td colSpan="5" className="text-center py-8 text-gray-500 dark:text-gray-400">
                     No hay categorías
                   </td>
                 </tr>
@@ -261,7 +261,7 @@ export default function Categories() {
                   onChange={(e) => setFormData(f => ({ ...f, activa: e.target.checked }))}
                   className="rounded border-gray-300 text-primary-600"
                 />
-                <label htmlFor="activa" className="text-sm text-gray-700">Categoría activa</label>
+                <label htmlFor="activa" className="text-sm text-gray-700 dark:text-gray-300">Categoría activa</label>
               </div>
               <div className="flex justify-end gap-3 pt-4">
                 <button

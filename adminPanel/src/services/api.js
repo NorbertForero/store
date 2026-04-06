@@ -82,6 +82,16 @@ export const usuariosService = {
   updateEstado: (id, activo) => api.patch(`/api/usuarios/${id}/estado`, { activo })
 }
 
+export const metodosPagoService = {
+  getAll: () => api.get('/api/pedidos/metodos/pago/admin'),
+  updateEstado: (id, activo) => api.patch(`/api/pedidos/metodos/pago/${id}`, { activo })
+}
+
+export const metodosEnvioService = {
+  getAll: () => api.get('/api/pedidos/metodos/envio/admin'),
+  update: (id, data) => api.patch(`/api/pedidos/metodos/envio/${id}`, data)
+}
+
 export const configuracionService = {
   getAll: () => api.get('/api/configuracion'),
   update: (data) => api.put('/api/configuracion', data),

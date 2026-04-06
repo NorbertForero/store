@@ -80,7 +80,7 @@ export default function Orders() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-800">Pedidos</h1>
+      <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Pedidos</h1>
 
       {/* Filtros */}
       <div className="card p-4">
@@ -144,7 +144,7 @@ export default function Orders() {
                 ))
               ) : pedidos.length === 0 ? (
                 <tr>
-                  <td colSpan="7" className="text-center py-8 text-gray-500">
+                  <td colSpan="7" className="text-center py-8 text-gray-500 dark:text-gray-400">
                     No se encontraron pedidos
                   </td>
                 </tr>
@@ -154,8 +154,8 @@ export default function Orders() {
                     <td className="font-medium">#{pedido.numero_pedido}</td>
                     <td>
                       <div>
-                        <p className="font-medium text-gray-800">{pedido.cliente_nombre}</p>
-                        <p className="text-xs text-gray-500">{pedido.cliente_email}</p>
+                        <p className="font-medium text-gray-800 dark:text-white">{pedido.cliente_nombre}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">{pedido.cliente_email}</p>
                       </div>
                     </td>
                     <td className="text-gray-600 text-sm">
@@ -196,8 +196,8 @@ export default function Orders() {
 
         {/* Paginación */}
         {pagination.totalPages > 1 && (
-          <div className="flex items-center justify-between p-4 border-t border-gray-200">
-            <p className="text-sm text-gray-500">
+          <div className="flex items-center justify-between p-4 border-t border-gray-200 dark:border-gray-700">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               Mostrando {pedidos.length} de {pagination.total} pedidos
             </p>
             <div className="flex items-center gap-2">

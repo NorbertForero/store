@@ -41,7 +41,7 @@ export default function Login() {
             <div className="w-16 h-16 bg-primary-600 rounded-xl flex items-center justify-center mx-auto mb-4">
               <Lock className="text-white" size={32} />
             </div>
-            <h1 className="text-2xl font-bold text-gray-800">Panel de Administración</h1>
+            <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Panel de Administración</h1>
             <p className="text-gray-500 mt-1">Inicia sesión para continuar</p>
           </div>
 

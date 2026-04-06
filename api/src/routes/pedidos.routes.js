@@ -519,6 +519,46 @@ router.get('/metodos/envio', async (req, res) => {
   }
 });
 
+// Obtener todos los métodos de envío (admin - incluye inactivos)
+router.get('/metodos/envio/admin', auth, isAdminOrVendedor, async (req, res) => {
+  try {
+    const [metodos] = await db.query(
+      'SELECT * FROM metodos_envio ORDER BY orden'
+    );
+    res.json({ success: true, data: metodos });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error al obtener métodos de envío' });
+  }
+});
+
+// Actualizar método de envío (admin)
+router.patch('/metodos/envio/:id', auth, isAdminOrVendedor, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const allowedFields = ['nombre', 'descripcion', 'precio', 'precio_gratis_desde', 'tiempo_entrega_min', 'tiempo_entrega_max', 'activo'];
+    const setClause = [];
+    const values = [];
+
+    for (const field of allowedFields) {
+      if (req.body[field] !== undefined) {
+        setClause.push(`${field} = ?`);
+        values.push(req.body[field]);
+      }
+    }
+
+    if (setClause.length === 0) {
+      return res.status(400).json({ success: false, message: 'No hay campos para actualizar' });
+    }
+
+    values.push(id);
+    await db.query(`UPDATE metodos_envio SET ${setClause.join(', ')} WHERE id = ?`, values);
+
+    res.json({ success: true, message: 'Método de envío actualizado' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error al actualizar método de envío' });
+  }
+});
+
 // Obtener métodos de pago
 router.get('/metodos/pago', async (req, res) => {
   try {
@@ -528,6 +568,32 @@ router.get('/metodos/pago', async (req, res) => {
     res.json({ success: true, data: metodos });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Error al obtener métodos de pago' });
+  }
+});
+
+// Obtener todos los métodos de pago (admin - incluye inactivos)
+router.get('/metodos/pago/admin', auth, isAdminOrVendedor, async (req, res) => {
+  try {
+    const [metodos] = await db.query(
+      'SELECT * FROM metodos_pago ORDER BY orden'
+    );
+    res.json({ success: true, data: metodos });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error al obtener métodos de pago' });
+  }
+});
+
+// Actualizar estado de método de pago (admin)
+router.patch('/metodos/pago/:id', auth, isAdminOrVendedor, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { activo } = req.body;
+
+    await db.query('UPDATE metodos_pago SET activo = ? WHERE id = ?', [activo ? 1 : 0, id]);
+
+    res.json({ success: true, message: 'Método de pago actualizado' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error al actualizar método de pago' });
   }
 });
 

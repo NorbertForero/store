@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Header from './components/Header'
 import Footer from './components/Footer'
@@ -16,25 +15,8 @@ import Profile from './pages/Profile'
 import Orders from './pages/Orders'
 import OrderDetail from './pages/OrderDetail'
 import ProtectedRoute from './components/ProtectedRoute'
-import { configuracionService } from './services/api'
-import { setCurrency } from './utils/currency'
 
 function App() {
-  // Cargar configuración de moneda desde la API
-  useEffect(() => {
-    const loadConfig = async () => {
-      try {
-        const response = await configuracionService.getPublica()
-        const config = response.data.data
-        if (config?.moneda) {
-          setCurrency(config.moneda)
-        }
-      } catch (error) {
-        console.log('Usando moneda por defecto')
-      }
-    }
-    loadConfig()
-  }, [])
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900 transition-colors duration-200">

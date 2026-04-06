@@ -94,7 +94,7 @@ export default function Products() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-800">Productos</h1>
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Productos</h1>
         <Link to="/productos/nuevo" className="btn btn-primary">
           <Plus size={20} />
           Nuevo producto
@@ -168,7 +168,7 @@ export default function Products() {
                 ))
               ) : productos.length === 0 ? (
                 <tr>
-                  <td colSpan="6" className="text-center py-8 text-gray-500">
+                  <td colSpan="6" className="text-center py-8 text-gray-500 dark:text-gray-400">
                     No se encontraron productos
                   </td>
                 </tr>
@@ -184,8 +184,8 @@ export default function Products() {
                           onError={(e) => { e.currentTarget.src = '/placeholder.svg' }}
                         />
                         <div>
-                          <p className="font-medium text-gray-800">{producto.nombre}</p>
-                          <p className="text-xs text-gray-500">{producto.categoria_nombre}</p>
+                          <p className="font-medium text-gray-800 dark:text-white">{producto.nombre}</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400">{producto.categoria_nombre}</p>
                         </div>
                       </div>
                     </td>
@@ -196,7 +196,7 @@ export default function Products() {
                           {formatCurrency(producto.precio)}
                         </p>
                         {producto.precio_oferta && (
-                          <p className="text-xs text-green-600">
+                          <p className="text-xs text-green-600 dark:text-green-400">
                             Oferta: {formatCurrency(producto.precio_oferta)}
                           </p>
                         )}
@@ -252,8 +252,8 @@ export default function Products() {
 
         {/* Paginación */}
         {pagination.totalPages > 1 && (
-          <div className="flex items-center justify-between p-4 border-t border-gray-200">
-            <p className="text-sm text-gray-500">
+          <div className="flex items-center justify-between p-4 border-t border-gray-200 dark:border-gray-700">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               Mostrando {productos.length} de {pagination.total} productos
             </p>
             <div className="flex items-center gap-2">

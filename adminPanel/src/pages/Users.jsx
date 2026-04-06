@@ -135,7 +135,7 @@ export default function Users() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-800">Usuarios</h1>
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Usuarios</h1>
         <button onClick={openCreateModal} className="btn btn-primary">
           <Plus size={20} />
           Nuevo usuario
@@ -197,7 +197,7 @@ export default function Users() {
                 ))
               ) : usuarios.length === 0 ? (
                 <tr>
-                  <td colSpan="6" className="text-center py-8 text-gray-500">
+                  <td colSpan="6" className="text-center py-8 text-gray-500 dark:text-gray-400">
                     No se encontraron usuarios
                   </td>
                 </tr>
@@ -210,16 +210,16 @@ export default function Users() {
                           {usuario.nombre?.charAt(0).toUpperCase()}
                         </div>
                         <div>
-                          <p className="font-medium text-gray-800">
+                          <p className="font-medium text-gray-800 dark:text-white">
                             {usuario.nombre} {usuario.apellido}
                           </p>
                           {usuario.telefono && (
-                            <p className="text-xs text-gray-500">{usuario.telefono}</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">{usuario.telefono}</p>
                           )}
                         </div>
                       </div>
                     </td>
-                    <td className="text-gray-600">{usuario.email}</td>
+                    <td className="text-gray-600 dark:text-gray-400">{usuario.email}</td>
                     <td>
                       <span className={`badge ${getRolBadge(usuario.rol)} capitalize`}>
                         {usuario.rol}
@@ -264,8 +264,8 @@ export default function Users() {
 
         {/* Paginación */}
         {pagination.totalPages > 1 && (
-          <div className="flex items-center justify-between p-4 border-t border-gray-200">
-            <p className="text-sm text-gray-500">
+          <div className="flex items-center justify-between p-4 border-t border-gray-200 dark:border-gray-700">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               {pagination.total} usuarios encontrados
             </p>
             <div className="flex items-center gap-2">
@@ -378,7 +378,7 @@ export default function Users() {
                   onChange={(e) => setFormData(f => ({ ...f, activo: e.target.checked }))}
                   className="rounded border-gray-300 text-primary-600"
                 />
-                <label htmlFor="activo" className="text-sm text-gray-700">Usuario activo</label>
+                <label htmlFor="activo" className="text-sm text-gray-700 dark:text-gray-300">Usuario activo</label>
               </div>
 
               <div className="flex justify-end gap-3 pt-4">

@@ -176,13 +176,13 @@ export default function ProductForm() {
         <button onClick={() => navigate('/productos')} className="p-2 hover:bg-gray-100 rounded-lg">
           <ArrowLeft size={24} />
         </button>
-        <h1 className="text-2xl font-bold text-gray-800">
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
           {isEdit ? 'Editar producto' : 'Nuevo producto'}
         </h1>
       </div>
 
       {error && (
-        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
+        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 dark:text-red-400">
           {error}
         </div>
       )}
@@ -321,7 +321,7 @@ export default function ProductForm() {
         {/* Imágenes */}
         <div className="card p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-800">Imágenes</h2>
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Imágenes</h2>
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
@@ -388,7 +388,7 @@ export default function ProductForm() {
               </div>
             )}
           </div>
-          <p className="mt-2 text-xs text-gray-500">Formatos: JPEG, PNG, WebP, GIF · Máximo 5 MB por imagen · La primera imagen será la principal</p>
+          <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">Formatos: JPEG, PNG, WebP, GIF · Máximo 5 MB por imagen · La primera imagen será la principal</p>
         </div>
 
         {/* Opciones */}
@@ -403,7 +403,7 @@ export default function ProductForm() {
                 onChange={handleChange}
                 className="rounded border-gray-300 text-primary-600"
               />
-              <span className="text-gray-700">Activo</span>
+              <span className="text-gray-700 dark:text-gray-300">Activo</span>
             </label>
             <label className="flex items-center gap-2 cursor-pointer">
               <input
@@ -413,7 +413,7 @@ export default function ProductForm() {
                 onChange={handleChange}
                 className="rounded border-gray-300 text-primary-600"
               />
-              <span className="text-gray-700">Destacado</span>
+              <span className="text-gray-700 dark:text-gray-300">Destacado</span>
             </label>
             <label className="flex items-center gap-2 cursor-pointer">
               <input
@@ -423,7 +423,7 @@ export default function ProductForm() {
                 onChange={handleChange}
                 className="rounded border-gray-300 text-primary-600"
               />
-              <span className="text-gray-700">Nuevo</span>
+              <span className="text-gray-700 dark:text-gray-300">Nuevo</span>
             </label>
           </div>
         </div>
